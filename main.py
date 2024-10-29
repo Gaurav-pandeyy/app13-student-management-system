@@ -1,3 +1,4 @@
+from idlelib.help_about import AboutDialog
 from os.path import curdir
 
 from PyQt6.QtCore import Qt
@@ -26,6 +27,7 @@ class MainWindow(QMainWindow):
         about_action = QAction("About", self)
         help_menu_item.addAction(about_action)
         about_action.setMenuRole(QAction.MenuRole.NoRole)
+        about_action.triggered.connect(self.about)
 
         searchSection = QAction(QIcon("icons/search.png"), "Search", self)
         searchSection.triggered.connect(self.search)
@@ -90,8 +92,20 @@ class MainWindow(QMainWindow):
     def delete(self):
         dialog = DeleteDialog()
         dialog.exec()
+    def about(self):
+        dialog = AboutDialog()
+        dialog.exec()
 
-
+class AboutDialog(QMessageBox):
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle("About")
+        self.setWindowIcon(QIcon("icons/about.png"))
+        content = """
+        This app was created to build a simple student management system . It was based off the tutorials of Ardit Sulce on Udemy. Some alterations have been made to the original Code to make it more practical.
+        
+        """
+        self.setText(content)
 class DeleteDialog(QDialog):
     def __init__(self):
         super().__init__()
